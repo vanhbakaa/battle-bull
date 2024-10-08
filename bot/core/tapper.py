@@ -146,6 +146,9 @@ class Tapper:
             except Exception as e:
                 logger.error(f"{self.session_name} | <red>Join TG channel failed - Error: {e}</red>")
 
+            if self.tg_client.is_connected:
+                await self.tg_client.disconnect()
+
         except Exception as error:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Unknown error during Authorization: "
                          f"{error}")
