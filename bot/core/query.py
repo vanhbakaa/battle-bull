@@ -180,6 +180,7 @@ class Tapper:
     async def upgrade(self, session: requests.Session):
         can_upgrade = True
         while can_upgrade:
+            self.sync(session)
             can_upgrade = False
             res = session.get("https://api.battle-games.com:8443/api/api/v1/cards", headers=headers)
             if res.status_code == 200:
