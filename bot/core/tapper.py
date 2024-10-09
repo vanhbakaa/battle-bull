@@ -284,7 +284,7 @@ class Tapper:
                 available_cards = []
                 for card in cards:
                     if card['boughtAt'] is not None:
-                        if time_module.time() < card['boughtAt']+card['rechargingDuration']:
+                        if int(time_module.time())*1000 < card['boughtAt']+card['rechargingDuration']:
                             continue
                     if card['condition'] is None or card['condition']['passed'] and self.balance >= card['nextLevel']['cost']:
                         available_cards.append(card)
