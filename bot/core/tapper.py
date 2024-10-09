@@ -271,7 +271,7 @@ class Tapper:
             return True
         else:
             logger.warning(f"{self.session_name} | <yellow>Failed to upgrade {card['id']}: {res.status_code}</yellow>")
-			return False
+            return False
 
     async def upgrade(self, session: requests.Session):
         can_upgrade = True
@@ -288,8 +288,8 @@ class Tapper:
                     if card['boughtAt'] is not None:
                         if int(time_module.time())*1000 < card['boughtAt'] + card['rechargingDuration']:
                             continue
-                    if card['condition'] is None or card['condition']['passed'] and self.balance >= card['nextLevel'][
-                        'cost']:
+                    if card['condition'] is None and int(self.balance) >= int(card['nextLevel']['cost']) or card['condition']['passed'] and int(self.balance) >= int(card['nextLevel']
+                    ['cost']):
                         available_cards.append(card)
 
                 for card in available_cards:
