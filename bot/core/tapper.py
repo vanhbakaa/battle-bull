@@ -266,10 +266,12 @@ class Tapper:
         }
         res = session.post("https://api.battle-games.com:8443/api/api/v1/cards/buy", json=payload, headers=headers)
         if res.status_code == 200:
-            logger.success(f"{self.session_name} | <green>Successfully upgraded card: <cyan>{card['id']}</cyan> - Cost: <yellow>{card['nextLevel']['cost']}</yellow></green>")
+            logger.success(
+                f"{self.session_name} | <green>Successfully upgraded card: <cyan>{card['id']}</cyan> - Cost: <yellow>{card['nextLevel']['cost']}</yellow></green>")
+            return True
         else:
-            print(res.text)
             logger.warning(f"{self.session_name} | <yellow>Failed to upgrade {card['id']}: {res.status_code}</yellow>")
+			return False
 
     async def upgrade(self, session: requests.Session):
         can_upgrade = True
@@ -284,13 +286,14 @@ class Tapper:
                 available_cards = []
                 for card in cards:
                     if card['boughtAt'] is not None:
-                        if int(time_module.time())*1000 < card['boughtAt']+card['rechargingDuration']:
+                        if int(time_module.time())*1000 < card['boughtAt'] + card['rechargingDuration']:
                             continue
-                    if card['condition'] is None or card['condition']['passed'] and self.balance >= card['nextLevel']['cost']:
+                    if card['condition'] is None or card['condition']['passed'] and self.balance >= card['nextLevel'][
+                        'cost']:
                         available_cards.append(card)
 
                 for card in available_cards:
-                    profitable = card['nextLevel']['cost']/card['nextLevel']['profitPerHour']
+                    profitable = card['nextLevel']['cost'] / card['nextLevel']['profitPerHour']
                     best_available_cards.append({
                         "profit": profitable,
                         "info": card
@@ -298,8 +301,7 @@ class Tapper:
 
                 best_to_upgrade = sorted(best_available_cards, key=lambda x: x['profit'])
                 for card in best_to_upgrade:
-                    self.upgrade_card(card['info'], session)
-                    can_upgrade = True
+                    can_upgrade = self.upgrade_card(card['info'], session)
                     break
 
             else:
