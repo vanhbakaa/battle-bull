@@ -173,9 +173,10 @@ class Tapper:
         if res.status_code == 200:
             logger.success(
                 f"{self.session_name} | <green>Successfully upgraded card: <cyan>{card['id']}</cyan> - Cost: <yellow>{card['nextLevel']['cost']}</yellow></green>")
+            return True
         else:
-            print(res.text)
             logger.warning(f"{self.session_name} | <yellow>Failed to upgrade {card['id']}: {res.status_code}</yellow>")
+			return False
 
     async def upgrade(self, session: requests.Session):
         can_upgrade = True
@@ -205,8 +206,7 @@ class Tapper:
 
                 best_to_upgrade = sorted(best_available_cards, key=lambda x: x['profit'])
                 for card in best_to_upgrade:
-                    self.upgrade_card(card['info'], session)
-                    can_upgrade = True
+                    can_upgrade = self.upgrade_card(card['info'], session)
                     break
 
             else:
