@@ -10,6 +10,9 @@
 - [Contacts](#contacts)
 
 
+> [!WARNING]
+> ⚠️ I do my best to avoid detection of bots, but using bots is forbidden in all airdrops. i cannot guarantee that you will not be detected as a bot. Use at your own risk. I am not responsible for any consequences of using this software.
+
 
 # 🔥🔥 Use PYTHON 3.10 - 3.11 🔥🔥
 
