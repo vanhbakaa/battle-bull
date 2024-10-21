@@ -380,6 +380,9 @@ class Tapper:
 
                 for card in cards:
 
+                    if 'nextLevel' not in list(card.keys()):
+                        continue
+
                     if card['boughtAt'] is not None:
 
                         if int(time_module.time())*1000 < card['boughtAt'] + card['rechargingDuration']:
