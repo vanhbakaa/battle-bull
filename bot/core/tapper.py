@@ -288,6 +288,9 @@ class Tapper:
                     if 'nextLevel' not in list(card.keys()):
                         continue
 
+                    if card['nextLevel'] is None:
+                        continue
+
                     if 'cost' not in list(card['nextLevel'].keys()):
                         continue
                     if card['boughtAt'] is not None:
